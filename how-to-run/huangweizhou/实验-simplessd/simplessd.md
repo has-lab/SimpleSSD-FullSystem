@@ -1,6 +1,19 @@
 
 # Simplessd-Fullsystem 学习笔记
 ## 准备
+### 若使用虚拟机 推荐vmware workstations pro 16
+ubuntu 18.04 LTS
+(一定不要用ubuntu20，会有bug)
+
+### ssh
+
+在本地终端上创建公钥，将邮箱换成对应的个人邮箱，若选默认配置的话，则一直按Enter即可
+$ ssh-keygen -t ed25519 -C "your_email@example.com"
+显示并复制本地电脑公钥，并将公钥复制到SSH keys
+$ cat ~/.ssh/id_ed25519.pub
+
+### gem5 模块下载
+
 Create directory to store downloaded files and set M5_PATH environment variable points that directory.
 
 - mkdir $HOME/m5
@@ -14,7 +27,11 @@ you can use winscp to transfer downloaded files to the server,and use unzip comm
 - unzip test.zip
 
 
-
+- 确保python版本是2.7
+- apt install build-essential
+- apt install scons python-dev zlib1g-dev m4 cmake
+- apt install libprotobuf-dev protobuf-compiler
+- apt install libgoogle-perftools-dev
 
 ## 下载
 - git clone https://github.com/SimpleSSD/SimpleSSD-FullSystem.git
@@ -26,6 +43,18 @@ for x86:
 
 scons build/X86/gem5.opt -j 64 --ignore-style  
 
+### 解决无法编译的问题
+sudo vim /usr/bin/scons
+第一行改成 路径/python2
+查看路径
+- which python2
+安装python six 
+- pip install six
+安装zlib
+- sudo apt install zlib1g
+- sudo apt install zlib1g-dev
+- sudo apt install m4
+- (根据报错信息安装相应模块)
 
 ## 仿真器配置 
 
@@ -47,6 +76,9 @@ src/dev/storage/simplessd/config/sample.cfg
 ## 运行
 
 ./build/X86/gem5.opt --debug-flag=M5Print --debug-file=debug.txt ./configs/example/fs.--py --kernel=x86_64-vmlinux-4.9.92 --num-cpu=4 --cpu-clock=2GHz --caches --l2cache --cpu-type=AtomicSimpleCPU --mem-size=16GB --mem-type=DDR4_2400_8x8 --ssd-interface=nvme --ssd-config=./src/dev/storage/simplessd/config/sample.cfg
+
+
+./build/X86/gem5.opt --debug-flag=M5Print --debug-file=debug.txt ./configs/example/fs.py --kernel=x86_64-vmlinux-4.9.92 --num-cpu=4 --cpu-clock=2GHz --caches --l2cache --cpu-type=AtomicSimpleCPU --mem-size=4GB --mem-type=DDR4_2400_8x8 --ssd-interface=nvme --ssd-config=./src/dev/storage/simplessd/config/sample.cfg
 
 
 ### 参数选择
