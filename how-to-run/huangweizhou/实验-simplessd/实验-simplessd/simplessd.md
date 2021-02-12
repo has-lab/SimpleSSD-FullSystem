@@ -5,12 +5,22 @@
 ubuntu 18.04 LTS
 (一定不要用ubuntu20，会有bug)
 
-### ssh
+#### ssh
 
 在本地终端上创建公钥，将邮箱换成对应的个人邮箱，若选默认配置的话，则一直按Enter即可
 $ ssh-keygen -t ed25519 -C "your_email@example.com"
 显示并复制本地电脑公钥，并将公钥复制到SSH keys
 $ cat ~/.ssh/id_ed25519.pub
+
+#### 更换镜像源
+
+    https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/
+
+更新完成之后，输入：
+
+    sudo apt update -y && sudo apt upgrade -y
+
+以更新配置
 
 ### gem5 模块下载
 

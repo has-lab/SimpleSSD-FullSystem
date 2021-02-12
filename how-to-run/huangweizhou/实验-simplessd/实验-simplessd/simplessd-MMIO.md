@@ -1,6 +1,6 @@
-# Simplessd-MMIO
+# Simplessd-MMIO-BAR配置
 
-
+## 初步探索BAR
 
 
 pcidevice.py 对BAR初始化，写入BARsize的初始值
@@ -87,3 +87,18 @@ device.cc中的PciDevice狗欧早函数一共被调用三次，部分BAR的初�
 
 第三次调用device.cc中的PciDevice构造函数，仅显示调用栈前五行
 </center>
+
+### 定位到初始化文件
+NVME接口的BAR初始化文件在：src/dev/storage/NVMe.py
+
+### 64-bit MMIO配置探索
+
+- 32-bit prefetchable memory和I/O address space BAR仅适用于Legacy Endpoint[链接](https://www.intel.cn/content/www/cn/zh/programmable/documentation/lbl1415138844137.html)，  
+因此，legacyIO=0
+
+- <img src="./images/屏幕截图 2021-02-11 102814.png" width="100%" height="100%" />
+
+- <img src="./images/屏幕截图 2021-02-12 095210.png" width="100%" height="100%" />
+
+
+
